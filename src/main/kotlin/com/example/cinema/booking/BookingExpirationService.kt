@@ -1,9 +1,9 @@
 package com.example.cinema.booking
 
-import com.example.cinema.entity.BookingStatus
-import com.example.cinema.entity.ShowtimeSeatStatus
-import com.example.cinema.repository.BookingRepository
-import com.example.cinema.repository.BookingSeatRepository
+import com.example.cinema.booking.entity.BookingStatus
+import com.example.cinema.showtime.entity.ShowtimeSeatStatus
+import com.example.cinema.booking.repository.BookingRepository
+import com.example.cinema.booking.repository.BookingSeatRepository
 import jakarta.transaction.Transactional
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service

@@ -1,7 +1,7 @@
 package com.example.cinema.booking
 
-import com.example.cinema.entity.BookingStatus
-import com.example.cinema.repository.BookingRepository
+import com.example.cinema.booking.entity.BookingStatus
+import com.example.cinema.booking.repository.BookingRepository
 import org.slf4j.LoggerFactory
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component

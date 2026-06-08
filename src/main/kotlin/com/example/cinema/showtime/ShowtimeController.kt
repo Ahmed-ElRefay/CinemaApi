@@ -1,7 +1,8 @@
 package com.example.cinema.showtime
 
-import com.example.cinema.dto.CreateShowtimeRequest
-import com.example.cinema.entity.Showtime
+import com.example.cinema.showtime.dto.CreateShowtimeRequest
+import com.example.cinema.showtime.dto.ShowtimeResponse
+import com.example.cinema.showtime.entity.Showtime
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.PostMapping
@@ -20,7 +21,7 @@ class ShowtimeController(
     @ResponseStatus(HttpStatus.CREATED)
     fun create(
         @Valid @RequestBody request: CreateShowtimeRequest
-    ) : Showtime {
+    ) : ShowtimeResponse {
         return showtimeService.create(request)
     }
 }

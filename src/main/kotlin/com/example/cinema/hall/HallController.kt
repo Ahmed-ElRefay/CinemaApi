@@ -1,9 +1,11 @@
 package com.example.cinema.hall
 
-import com.example.cinema.dto.CreateHallRequest
-import com.example.cinema.dto.CreateSeatsRequest
-import com.example.cinema.entity.Hall
-import com.example.cinema.entity.Seat
+import com.example.cinema.hall.dto.CreateHallRequest
+import com.example.cinema.hall.dto.CreateSeatsRequest
+import com.example.cinema.hall.dto.HallResponse
+import com.example.cinema.hall.dto.SeatResponse
+import com.example.cinema.hall.entity.Hall
+import com.example.cinema.hall.entity.Seat
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.GetMapping
@@ -23,13 +25,13 @@ class HallController(
 ) {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun create(@Valid @RequestBody request: CreateHallRequest): Hall {
+    fun create(@Valid @RequestBody request: CreateHallRequest): HallResponse {
         return hallService.create(request)
     }
 
     @GetMapping
     fun getByCinemaId(
-       @RequestParam cinemaId: UUID): List<Hall> {
+       @RequestParam cinemaId: UUID): List<HallResponse> {
         return hallService.findByCinemaId(cinemaId)
     }
 
@@ -38,7 +40,7 @@ class HallController(
     fun createSeats(
         @PathVariable hallId: UUID,
         @Valid @RequestBody request: CreateSeatsRequest
-    ): List<Seat>{
+    ): List<SeatResponse>{
         return hallService.createSeats(hallId, request)
     }
 }

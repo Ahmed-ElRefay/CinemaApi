@@ -1,12 +1,15 @@
 package com.example.cinema.hall
 
-import com.example.cinema.dto.CreateHallRequest
-import com.example.cinema.dto.CreateSeatsRequest
-import com.example.cinema.entity.Hall
-import com.example.cinema.entity.Seat
-import com.example.cinema.repository.CinemaRepository
-import com.example.cinema.repository.HallRepository
-import com.example.cinema.repository.SeatRepository
+import com.example.cinema.hall.dto.CreateHallRequest
+import com.example.cinema.hall.dto.CreateSeatsRequest
+import com.example.cinema.hall.entity.Hall
+import com.example.cinema.hall.entity.Seat
+import com.example.cinema.cinemas.repository.CinemaRepository
+import com.example.cinema.hall.dto.HallResponse
+import com.example.cinema.hall.dto.SeatRequest
+import com.example.cinema.hall.dto.SeatResponse
+import com.example.cinema.hall.repository.HallRepository
+import com.example.cinema.hall.repository.SeatRepository
 import jakarta.transaction.Transactional
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
@@ -22,7 +25,7 @@ class HallService(
 ) {
 
     @Transactional
-    fun create(request: CreateHallRequest) : Hall {
+    fun create(request: CreateHallRequest) : HallResponse {
         val cinema = cinemaRepository.findByIdOrNull(request.cinemaId) ?: throw ResponseStatusException(
             HttpStatus.NOT_FOUND,
             "Cinema ${request.cinemaId} not found"
@@ -33,15 +36,18 @@ class HallService(
             name = request.name,
         )
         hallRepository.save(hall)
-        return hall
+        return HallResponse.from(hall)
     }
 
-    fun findByCinemaId(cinemaId: UUID): List<Hall> {
-        return hallRepository.findByCinemaId(cinemaId)
+    fun findByCinemaId(cinemaId: UUID): List<HallResponse> {
+        val halls = hallRepository.findByCinemaId(cinemaId)
+        if (halls.isEmpty())
+            throw ResponseStatusException(HttpStatus.NOT_FOUND, "Cinema $cinemaId doesn't have halls")
+        return halls.map { HallResponse.from(it) }
     }
 
     @Transactional
-    fun createSeats(hallId: UUID ,  request: CreateSeatsRequest): List<Seat> {
+    fun createSeats(hallId: UUID ,  request: CreateSeatsRequest): List<SeatResponse> {
         val hall = hallRepository.findByIdOrNull(hallId) ?: throw ResponseStatusException(
             HttpStatus.NOT_FOUND,
             "Hall $hallId not found"
@@ -54,7 +60,8 @@ class HallService(
                 seatType = seat.seatType,
             )
         }
-        return seatRepository.saveAll(seats)
+        seatRepository.saveAll(seats)
+        return seats.map { SeatResponse.from(it) }
     }
 
 }

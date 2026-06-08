@@ -1,7 +1,7 @@
 package com.example.cinema.cinemas
 
-import com.example.cinema.dto.CreateCinemaRequest
-import com.example.cinema.entity.Cinema
+import com.example.cinema.cinemas.dto.CreateCinemaRequest
+import com.example.cinema.cinemas.entity.Cinema
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.GetMapping

@@ -1,18 +1,23 @@
 package com.example.cinema.cinemas
 
-import com.example.cinema.dto.CreateCinemaRequest
-import com.example.cinema.entity.Cinema
+import com.example.cinema.cinemas.dto.CinemaResponse
+import com.example.cinema.cinemas.dto.CreateCinemaRequest
+import com.example.cinema.cinemas.entity.Cinema
 import org.springframework.stereotype.Service
-import com.example.cinema.repository.CinemaRepository
+import com.example.cinema.cinemas.repository.CinemaRepository
 
 @Service
 class CinemaService (
     private val cinemaRepository: CinemaRepository
 ) {
-    fun create(request: CreateCinemaRequest): Cinema {
+    fun create(request: CreateCinemaRequest): CinemaResponse {
         val cinema = Cinema(name = request.name, city = request.city)
-        return cinemaRepository.save(cinema)
+        cinemaRepository.save(cinema)
+        return CinemaResponse.from(cinema)
     }
 
-    fun findAll(): List<Cinema> = cinemaRepository.findAll()
+    fun findAll(): List<CinemaResponse> {
+        val cinemas = cinemaRepository.findAll()
+        return cinemas.map { CinemaResponse.from(it) }
+    }
 }

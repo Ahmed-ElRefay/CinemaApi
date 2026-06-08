@@ -1,7 +1,8 @@
 package com.example.cinema.booking
 
-import com.example.cinema.dto.CreateBookingRequest
-import com.example.cinema.entity.Booking
+import com.example.cinema.booking.dto.BookingResponse
+import com.example.cinema.booking.dto.CreateBookingRequest
+import com.example.cinema.booking.entity.Booking
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -20,7 +21,7 @@ class BookingController(
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun create(
-        @Valid @RequestBody request: CreateBookingRequest): Booking {
+        @Valid @RequestBody request: CreateBookingRequest): BookingResponse {
         return bookingService.create(request)
     }
 }

@@ -1,22 +1,22 @@
 package com.example.cinema.booking
 
-import com.example.cinema.dto.CreateBookingRequest
-import com.example.cinema.entity.Booking
-import com.example.cinema.entity.BookingSeat
-import com.example.cinema.entity.BookingStatus
-import com.example.cinema.entity.ShowtimeSeatStatus
-import com.example.cinema.repository.BookingRepository
-import com.example.cinema.repository.BookingSeatRepository
-import com.example.cinema.repository.ShowtimeRepository
-import com.example.cinema.repository.ShowtimeSeatRepository
-import com.example.cinema.repository.UserRepository
+import com.example.cinema.booking.dto.BookingResponse
+import com.example.cinema.booking.dto.CreateBookingRequest
+import com.example.cinema.booking.dto.SeatBookingResponse
+import com.example.cinema.booking.dto.ShowtimeSummary
+import com.example.cinema.booking.entity.Booking
+import com.example.cinema.booking.entity.BookingSeat
+import com.example.cinema.showtime.entity.ShowtimeSeatStatus
+import com.example.cinema.booking.repository.BookingRepository
+import com.example.cinema.booking.repository.BookingSeatRepository
+import com.example.cinema.showtime.repository.ShowtimeRepository
+import com.example.cinema.showtime.repository.ShowtimeSeatRepository
+import com.example.cinema.user.repository.UserRepository
 import jakarta.transaction.Transactional
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
-import org.springframework.orm.ObjectOptimisticLockingFailureException
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
-import java.math.BigDecimal
 import java.time.Duration
 import java.time.Instant
 
@@ -30,7 +30,7 @@ class BookingService(
 ) {
 
     @Transactional
-    fun create(request: CreateBookingRequest): Booking {
+    fun create(request: CreateBookingRequest): BookingResponse {
         val user = userRepository.findByIdOrNull(request.userId)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "User ${request.userId} not found")
         val showtime = showtimeRepository.findByIdOrNull(request.showtimeId)
@@ -71,6 +71,13 @@ class BookingService(
             )
         }
         bookingSeatRepository.saveAll(bookingSeats)
-        return booking
+
+        return BookingResponse.from(
+            booking,
+            ShowtimeSummary.from(showtime),
+            showtimeSeats.map {
+                SeatBookingResponse.from(it)
+            }
+            )
     }
 }

@@ -1,13 +1,14 @@
 package com.example.cinema.showtime
 
-import com.example.cinema.dto.CreateShowtimeRequest
-import com.example.cinema.entity.Showtime
-import com.example.cinema.entity.ShowtimeSeat
-import com.example.cinema.repository.HallRepository
-import com.example.cinema.repository.MovieRepository
-import com.example.cinema.repository.SeatRepository
-import com.example.cinema.repository.ShowtimeRepository
-import com.example.cinema.repository.ShowtimeSeatRepository
+import com.example.cinema.showtime.dto.CreateShowtimeRequest
+import com.example.cinema.showtime.entity.Showtime
+import com.example.cinema.showtime.entity.ShowtimeSeat
+import com.example.cinema.hall.repository.HallRepository
+import com.example.cinema.movie.repository.MovieRepository
+import com.example.cinema.hall.repository.SeatRepository
+import com.example.cinema.showtime.dto.ShowtimeResponse
+import com.example.cinema.showtime.repository.ShowtimeRepository
+import com.example.cinema.showtime.repository.ShowtimeSeatRepository
 import jakarta.transaction.Transactional
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
@@ -24,7 +25,7 @@ class ShowtimeService(
 ) {
 
     @Transactional
-    fun create(request: CreateShowtimeRequest): Showtime{
+    fun create(request: CreateShowtimeRequest): ShowtimeResponse{
         val movie = movieRepository.findByIdOrNull(request.movieId)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Movie not found ${request.movieId}")
 
@@ -52,7 +53,7 @@ class ShowtimeService(
             )
         }
         showtimeSeatRepository.saveAll(showtimeSeats)
-        return showtime
+        return ShowtimeResponse.from(showtime)
     }
 
 
