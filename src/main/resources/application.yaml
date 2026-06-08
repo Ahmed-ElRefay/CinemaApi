@@ -1,0 +1,19 @@
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE
+spring:
+  application:
+    name: cinema
+  datasource:
+    url: jdbc:postgresql://localhost:5432/cinema
+    username: cinema
+    password: cinema
+  jpa:
+    hibernate:
+      ddl-auto: validate
+      properties:
+        hibernate:
+          format_sql: true
+  flyway:
+    enabled: true
