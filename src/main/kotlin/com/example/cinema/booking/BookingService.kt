@@ -6,9 +6,12 @@ import com.example.cinema.booking.dto.SeatBookingResponse
 import com.example.cinema.booking.dto.ShowtimeSummary
 import com.example.cinema.booking.entity.Booking
 import com.example.cinema.booking.entity.BookingSeat
+import com.example.cinema.booking.entity.BookingStatus
 import com.example.cinema.showtime.entity.ShowtimeSeatStatus
 import com.example.cinema.booking.repository.BookingRepository
 import com.example.cinema.booking.repository.BookingSeatRepository
+import com.example.cinema.common.exception.BookingNotFoundException
+import com.example.cinema.common.exception.ConflictException
 import com.example.cinema.showtime.repository.ShowtimeRepository
 import com.example.cinema.showtime.repository.ShowtimeSeatRepository
 import com.example.cinema.user.repository.UserRepository
@@ -19,6 +22,7 @@ import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
 import java.time.Duration
 import java.time.Instant
+import java.util.UUID
 
 @Service
 class BookingService(
@@ -79,5 +83,28 @@ class BookingService(
                 SeatBookingResponse.from(it)
             }
             )
+    }
+
+
+    @Transactional
+    fun confirm(bookingId: UUID) : BookingResponse{
+        val booking = bookingRepository.findByIdOrNull(bookingId)
+            ?: throw BookingNotFoundException(bookingId)
+
+        if (booking.status != BookingStatus.HELD) {
+            throw ConflictException("Cannot confirm booking in status ${booking.status}")
+        }
+
+        val bookingSeats = bookingSeatRepository.findByBookingId(bookingId)
+        bookingSeats.forEach { it.showtimeSeat.status = ShowtimeSeatStatus.BOOKED }
+        booking.status = BookingStatus.CONFIRMED
+        booking.holdExpiresAt = null
+        return BookingResponse.from(
+            booking,
+            ShowtimeSummary.from(booking.showtime),
+            bookingSeats.map {
+             SeatBookingResponse.from(it.showtimeSeat)
+            }
+        )
     }
 }

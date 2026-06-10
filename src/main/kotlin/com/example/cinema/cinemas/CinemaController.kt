@@ -1,5 +1,6 @@
 package com.example.cinema.cinemas
 
+import com.example.cinema.cinemas.dto.CinemaResponse
 import com.example.cinema.cinemas.dto.CreateCinemaRequest
 import com.example.cinema.cinemas.entity.Cinema
 import jakarta.validation.Valid
@@ -19,10 +20,10 @@ class CinemaController(
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun create(@Valid @RequestBody request: CreateCinemaRequest): Cinema {
+    fun create(@Valid @RequestBody request: CreateCinemaRequest): CinemaResponse {
         return cinemaService.create(request)
     }
 
     @GetMapping
-    fun findAll(): List<Cinema> = cinemaService.findAll()
+    fun findAll(): List<CinemaResponse> = cinemaService.findAll()
 }

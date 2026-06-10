@@ -21,4 +21,16 @@ class GlobalExceptionHandler {
                 )
             )
     }
+
+
+    @ExceptionHandler(NotFoundException::class)
+    fun handleNotFound(ex: NotFoundException) : ResponseEntity<ErrorResponse> {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+            ErrorResponse(
+                status = HttpStatus.NOT_FOUND.value(),
+                error = "Not found",
+                message = ex.message
+            )
+        )
+    }
 }
