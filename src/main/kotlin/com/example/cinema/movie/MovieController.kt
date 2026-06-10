@@ -1,6 +1,7 @@
 package com.example.cinema.movie
 
 import com.example.cinema.movie.dto.CreateMovieRequest
+import com.example.cinema.movie.dto.MovieResponse
 import com.example.cinema.movie.entity.Movie
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
@@ -21,14 +22,14 @@ class MovieController(
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun create(
-       @Valid @RequestBody request: CreateMovieRequest): Movie {
+       @Valid @RequestBody request: CreateMovieRequest): MovieResponse {
         return movieService.create(request)
     }
 
     @GetMapping
     fun find(
         @RequestParam(required = false) genre: String?
-    ) : List<Movie> {
+    ) : List<MovieResponse> {
         return if (genre != null)
             movieService.findByGenre(genre)
         else
