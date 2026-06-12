@@ -10,10 +10,10 @@ import com.example.cinema.hall.dto.SeatRequest
 import com.example.cinema.hall.dto.SeatResponse
 import com.example.cinema.hall.repository.HallRepository
 import com.example.cinema.hall.repository.SeatRepository
-import jakarta.transaction.Transactional
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.server.ResponseStatusException
 import java.util.UUID
 
@@ -39,6 +39,7 @@ class HallService(
         return HallResponse.from(hall)
     }
 
+    @Transactional(readOnly = true)
     fun findByCinemaId(cinemaId: UUID): List<HallResponse> {
         val halls = hallRepository.findByCinemaId(cinemaId)
         if (halls.isEmpty())
