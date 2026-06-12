@@ -15,4 +15,7 @@ class User(
     var email: String,
     @Column(nullable = false , length = 100)
     var name: String,
+
+    @Column(nullable = false , length = 255)
+    var password: String,
 )
