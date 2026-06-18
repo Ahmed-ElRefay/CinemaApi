@@ -72,11 +72,11 @@ class BookingConcurrencyTest @Autowired constructor(
             .exchangeAs(HttpStatus.CREATED)
 
         val alice: UserResponse = client.post().uri("/api/users")
-            .body(CreateUserRequest("Alice", "alice@test.com"))
+            .body(CreateUserRequest("Alice", "alice@test.com" , password = "password"))
             .exchangeAs(HttpStatus.CREATED)
 
         val bob: UserResponse = client.post().uri("/api/users")
-            .body(CreateUserRequest("Bob", "bob@test.com"))
+            .body(CreateUserRequest("Bob", "bob@test.com", password = "password"))
             .exchangeAs(HttpStatus.CREATED)
 
         val showtimeSeats: List<ShowtimeSeatsResponse> = client.get()

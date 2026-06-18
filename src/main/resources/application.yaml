@@ -1,7 +1,12 @@
+app:
+  jwt:
+    secret: "${APP_JWT_SECRET:this-is-my-development-secret-key-must-be-at-least-32-bytes-long}"
+    expiration-minutes: "${APP_JWT_EXPIRATION_MINUTES:60}"
 logging:
   level:
     org.hibernate.SQL: DEBUG
     org.hibernate.orm.jdbc.bind: TRACE
+    org.springframework.security: DEBUG
 spring:
   application:
     name: cinema
@@ -18,3 +23,5 @@ spring:
           format_sql: true
   flyway:
     enabled: true
+
+

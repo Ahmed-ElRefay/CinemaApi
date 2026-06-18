@@ -11,5 +11,13 @@ open class NotFoundException(message: String) : RuntimeException(message)
 @ResponseStatus(HttpStatus.CONFLICT)
 open class ConflictException(message: String) : RuntimeException(message)
 
+
+@ResponseStatus(HttpStatus.UNAUTHORIZED)
+open class UnauthorizedException(message: String) : RuntimeException(message)
+
 class BookingNotFoundException(id: UUID) :
     NotFoundException("Booking $id not found")
+
+
+class InvalidCredentialsException() :
+    UnauthorizedException("Invalid credentials")
