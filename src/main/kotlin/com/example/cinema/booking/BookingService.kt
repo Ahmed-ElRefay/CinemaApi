@@ -34,9 +34,9 @@ class BookingService(
 ) {
 
     @Transactional
-    fun create(request: CreateBookingRequest): BookingResponse {
-        val user = userRepository.findByIdOrNull(request.userId)
-            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "User ${request.userId} not found")
+    fun create(request: CreateBookingRequest, userId: UUID): BookingResponse {
+        val user = userRepository.findByIdOrNull(userId)
+            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "User $userId not found")
         val showtime = showtimeRepository.findByIdOrNull(request.showtimeId)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Showtime ${request.showtimeId} is not found")
 

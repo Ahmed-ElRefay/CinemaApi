@@ -5,6 +5,7 @@ import com.example.cinema.cinemas.dto.CreateCinemaRequest
 import com.example.cinema.cinemas.entity.Cinema
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -18,6 +19,7 @@ class CinemaController(
     private val cinemaService: CinemaService
 ) {
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun create(@Valid @RequestBody request: CreateCinemaRequest): CinemaResponse {

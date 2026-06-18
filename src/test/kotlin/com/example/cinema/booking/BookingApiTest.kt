@@ -61,7 +61,7 @@ class BookingApiTest @Autowired constructor(
             .exchangeAs(HttpStatus.CREATED)
 
         val user: UserResponse = client.post().uri("/api/users")
-            .body(CreateUserRequest(name = "Ahmed", email = "ahmed.elref94@gmail.com"))
+            .body(CreateUserRequest(name = "Ahmed", email = "ahmed.elref94@gmail.com" , password = "123456"))
             .exchangeAs(HttpStatus.CREATED)
 
         val showtimeSeats: List<ShowtimeSeatsResponse> = client.get()

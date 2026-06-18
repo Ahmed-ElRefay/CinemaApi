@@ -9,4 +9,6 @@ data class CreateUserRequest(
     @field:Size(max = 150, message = "email maximum must be 150")
     @field:Email("Invalid Email Format")
     val email: String,
+    @field:Size(min = 8, max = 100)
+    val password: String
 )
