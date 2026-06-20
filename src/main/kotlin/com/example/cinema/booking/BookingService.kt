@@ -16,6 +16,7 @@ import com.example.cinema.showtime.repository.ShowtimeRepository
 import com.example.cinema.showtime.repository.ShowtimeSeatRepository
 import com.example.cinema.user.repository.UserRepository
 import jakarta.transaction.Transactional
+import org.springframework.cache.annotation.CacheEvict
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
@@ -33,6 +34,7 @@ class BookingService(
     private val bookingSeatRepository: BookingSeatRepository,
 ) {
 
+    @CacheEvict(value = ["showtime-seats"], key = "#request.showtimeId")
     @Transactional
     fun create(request: CreateBookingRequest, userId: UUID): BookingResponse {
         val user = userRepository.findByIdOrNull(userId)
@@ -86,6 +88,7 @@ class BookingService(
     }
 
 
+    @CacheEvict(value = ["showtime-seats"], key = "#request.showtimeId")
     @Transactional
     fun confirm(bookingId: UUID) : BookingResponse{
         val booking = bookingRepository.findByIdOrNull(bookingId)

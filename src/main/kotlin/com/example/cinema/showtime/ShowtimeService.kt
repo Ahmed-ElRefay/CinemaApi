@@ -12,6 +12,7 @@ import com.example.cinema.showtime.dto.ShowtimeResponse
 import com.example.cinema.showtime.dto.ShowtimeSeatsResponse
 import com.example.cinema.showtime.repository.ShowtimeRepository
 import com.example.cinema.showtime.repository.ShowtimeSeatRepository
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
@@ -60,6 +61,7 @@ class ShowtimeService(
         return ShowtimeResponse.from(showtime)
     }
 
+    @Cacheable(value = ["showtime-seats"], key = "#showtimeId")
     @Transactional(readOnly =true)
     fun findSeatsForShowtime(showtimeId: UUID): List<ShowtimeSeatsResponse> {
 

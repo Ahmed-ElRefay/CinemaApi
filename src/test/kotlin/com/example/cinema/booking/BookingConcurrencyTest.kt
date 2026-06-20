@@ -85,8 +85,8 @@ class BookingConcurrencyTest @Autowired constructor(
 
         val targetSeatId = showtimeSeats.single().id
 
-        val aliceRequest = CreateBookingRequest(alice.id, showtime.id, listOf(targetSeatId))
-        val bobRequest   = CreateBookingRequest(bob.id,   showtime.id, listOf(targetSeatId))
+        val aliceRequest = CreateBookingRequest( showtime.id, listOf(targetSeatId))
+        val bobRequest   = CreateBookingRequest(  showtime.id, listOf(targetSeatId))
 
         val httpClient = HttpClient.newHttpClient()
         val baseUrl = "http://localhost:$port"

@@ -5,6 +5,7 @@ import com.example.cinema.showtime.entity.ShowtimeSeatStatus
 import com.example.cinema.booking.repository.BookingRepository
 import com.example.cinema.booking.repository.BookingSeatRepository
 import jakarta.transaction.Transactional
+import org.springframework.cache.annotation.CacheEvict
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import java.util.UUID
@@ -15,8 +16,9 @@ class BookingExpirationService(
     private val bookingSeatRepository: BookingSeatRepository
 ) {
 
+    @CacheEvict(value = ["showtime-seats"], key = "#showtimeId")
     @Transactional
-    fun expireBooking(bookingId: UUID) {
+    fun expireBooking(bookingId: UUID , showtimeId: UUID) {
         val booking = bookingRepository.findByIdOrNull(bookingId) ?: return
         if(booking.status != BookingStatus.HELD) return
 
