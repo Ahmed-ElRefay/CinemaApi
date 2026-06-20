@@ -30,6 +30,9 @@ dependencies {
 	implementation("tools.jackson.module:jackson-module-kotlin")
 	runtimeOnly("org.postgresql:postgresql")
 
+	//cache
+	implementation("org.springframework.boot:spring-boot-starter-cache")
+
 	//BCrypt
 	implementation("org.springframework.security:spring-security-crypto")
 
@@ -38,6 +41,16 @@ dependencies {
 	implementation("io.jsonwebtoken:jjwt-api:0.12.6")
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.6")
 	runtimeOnly("io.jsonwebtoken:jjwt-gson:0.12.6")
+
+	//redis
+	implementation("org.springframework.boot:spring-boot-starter-data-redis")
+
+	//prometheus
+	runtimeOnly("io.micrometer:micrometer-registry-prometheus")
+
+	//shedlock
+	implementation("net.javacrumbs.shedlock:shedlock-spring:5.16.0")
+	implementation("net.javacrumbs.shedlock:shedlock-provider-jdbc-template:5.16.0")
 
 
 	/*	testImplementation("org.springframework.boot:spring-boot-starter-actuator-test")

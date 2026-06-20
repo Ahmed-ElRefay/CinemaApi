@@ -7,6 +7,21 @@ logging:
     org.hibernate.SQL: DEBUG
     org.hibernate.orm.jdbc.bind: TRACE
     org.springframework.security: DEBUG
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: when-authorized
+  info:
+    env:
+      enabled: true
+info:
+  app:
+    name: cinema-booking
+    version: 0.0.1-SNAPSHOT
 spring:
   application:
     name: cinema
@@ -23,5 +38,9 @@ spring:
           format_sql: true
   flyway:
     enabled: true
+  data:
+    redis:
+      host: "${REDIS_HOST:localhost}"
+      port: "${REDIS_PORT:6379}"
 
 
